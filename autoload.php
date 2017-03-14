@@ -7,11 +7,12 @@
  */
 
 define('BASE_PATH', realpath(dirname(__FILE__)));
-function my_autoloader($class)
+
+function customAutoLoader($class)
 {
     $class = str_replace('Course\\', '', $class);
     $filename = BASE_PATH . '/src/' . str_replace('\\', '/', $class) . '.php';
-    include($filename);
+    require $filename;
 }
 
-spl_autoload_register('my_autoloader');
+spl_autoload_register('customAutoLoader');

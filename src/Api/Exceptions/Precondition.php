@@ -14,12 +14,7 @@ class Precondition
     public static function isTrue(bool $condition, string $message)
     {
         if ($condition !== true) {
-            self::throwException($message);
+            throw new PreconditionException($message);
         }
-    }
-
-    private static function throwException($message)
-    {
-        throw new ApiException($message);
     }
 }
