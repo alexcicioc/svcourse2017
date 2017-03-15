@@ -8,11 +8,13 @@
 
 namespace Course\Api\Controllers;
 
+use Course\Services\Http\Response;
+
 class UsersController implements Controller
 {
     public function get()
     {
-        echo 'hello world';
+        Response::showSuccessResponse('hello world');
     }
 
     public function create()

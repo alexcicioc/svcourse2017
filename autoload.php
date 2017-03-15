@@ -8,11 +8,8 @@
 
 define('BASE_PATH', realpath(dirname(__FILE__)));
 
-function customAutoLoader($class)
-{
-    $class = str_replace('Course\\', '', $class);
-    $filename = BASE_PATH . '/src/' . str_replace('\\', '/', $class) . '.php';
-    require $filename;
+// The vendor autoloading file
+if (!file_exists(BASE_PATH . '/vendor/autoload.php')) {
+    die('Please run `composer install` to generate your vendor directory');
 }
-
-spl_autoload_register('customAutoLoader');
+require_once BASE_PATH . '/vendor/autoload.php';
