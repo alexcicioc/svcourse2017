@@ -11,8 +11,9 @@ namespace Course\Services\Http;
 
 class Request
 {
-    public function getRequestBody()
+    public static function getJsonBody()
     {
-
+        $rawBody = file_get_contents("php://input");
+        return json_decode($rawBody);
     }
 }

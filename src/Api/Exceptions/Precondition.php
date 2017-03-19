@@ -17,4 +17,12 @@ class Precondition
             throw new PreconditionException($message);
         }
     }
+
+    public static function lengthIsBetween($string, $minLength, $maxLength, $variableName)
+    {
+        $length = strlen($string);
+        if (!($length >= $minLength && $length <= $maxLength)) {
+            throw new PreconditionException($variableName . ' should be between ' . $minLength . ' and ' . $maxLength . ' characters');
+        }
+    }
 }
