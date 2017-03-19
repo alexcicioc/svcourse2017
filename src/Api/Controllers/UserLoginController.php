@@ -11,11 +11,11 @@ namespace Course\Api\Controllers;
 use Course\Api\Exceptions\Precondition;
 use Course\Api\Exceptions\PreconditionException;
 use Course\Api\Model\UserModel;
+use Course\Services\Http\Exceptions\HttpException;
 use Course\Services\Http\HttpConstants;
 use Course\Services\Http\Request;
 use Course\Services\Http\Response;
 use Course\Services\Utils\StringUtils;
-use HttpException;
 
 class UserLoginController implements Controller
 {
