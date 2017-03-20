@@ -36,7 +36,7 @@ class UserController implements Controller
         }
 
         if (UserModel::usernameExists($body->username)) {
-            Response::showErrorResponse(ErrorCodes::USERNAME_ALREADY_TAKEN, 'username already taken');
+            Response::showErrorResponse(ErrorCodes::USER_CREATE_USERNAME_ALREADY_TAKEN, 'username already taken');
         }
 
         $password = StringUtils::encryptPassword($body->password);
