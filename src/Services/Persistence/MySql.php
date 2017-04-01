@@ -72,6 +72,29 @@ class MySql
 
     /**
      * @param string $tableName
+     * @param array  $where
+     *
+     * @return array
+     * @throws Exceptions\ConnectionException
+     * @throws Exceptions\QueryException
+     */
+    public static function getMulti(string $tableName, array $where = [])
+    {
+        $sql = 'select * from `' . $tableName . '`';
+        $clauses = [];
+
+        foreach ($where as $columnName => $columnValue) {
+            $clauses[] = '`' . $columnName . '` = "' . self::getConnection()->escape_string($columnValue) . '"';
+        }
+
+        $sql   .= count($clauses) > 0 ? ' where ' . implode(' AND ', $clauses) : '';
+        $result = mysqli_fetch_all(self::query($sql), MYSQLI_ASSOC);
+
+        return $result ?: [];
+    }
+
+    /**
+     * @param string $tableName
      * @param array $data
      * @return int
      */
