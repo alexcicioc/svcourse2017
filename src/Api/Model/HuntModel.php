@@ -6,16 +6,16 @@ use Course\Services\Persistence\MySql;
 
 class HuntModel extends ActiveRecord
 {
-    protected static $config = [
-        self::CONFIG_TABLE_NAME   => 'hunts',
-        self::CONFIG_PRIMARY_KEYS => ['id'],
-        self::CONFIG_DB_COLUMNS   => ['id', 'name', 'state'],
-    ];
+    // States definition
+    const STATE_ACTIVE    = 'A';
+    const STATE_STARTED   = 'S';
+    const STATE_COMPLETED = 'C';
 
+    // Available states
     const STATES = [
-        'A', //Available
-        'S', //Started
-        'C', //Completed
+        self::STATE_ACTIVE,
+        self::STATE_STARTED,
+        self::STATE_COMPLETED,
     ];
 
     /**
@@ -23,7 +23,11 @@ class HuntModel extends ActiveRecord
      */
     protected static function getConfig(): array
     {
-        return self::$config;
+        return [
+            self::CONFIG_TABLE_NAME   => 'hunts',
+            self::CONFIG_PRIMARY_KEYS => ['id'],
+            self::CONFIG_DB_COLUMNS   => ['id', 'name', 'state'],
+        ];
     }
 
     /**
@@ -37,7 +41,7 @@ class HuntModel extends ActiveRecord
         Precondition::isTrue(in_array($state, self::STATES), 'The state is not valid');
 
         $huntModelList = [];
-        $results       = MySql::getMulti(self::$config[self::CONFIG_TABLE_NAME], ['state' => $state]);
+        $results       = MySql::getMulti(self::getTableName(), ['state' => $state]);
 
         foreach ($results as $result) {
             $huntModelList[] = new static($result);

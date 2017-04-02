@@ -8,9 +8,6 @@
 
 namespace Course\Api\Controllers;
 
-
-use Course\Api\Exceptions\Precondition;
-use Course\Api\Exceptions\PreconditionException;
 use Course\Api\Model\HuntModel;
 use Course\Services\Http\Response;
 
@@ -19,14 +16,14 @@ class HuntsActiveController implements Controller
 
     public function get()
     {
-        try {
-            Precondition::isTrue(array_key_exists('state', $_GET), 'The parameter "state" is not provided');
-            Precondition::isTrue(in_array($_GET['state'], HuntModel::STATES), 'The state is not valid');
-        } catch (PreconditionException $e) {
-            Response::showErrorResponse(ErrorCodes::INVALID_PARAMETER, $e->getMessage());
-        }
+        $hunts = [];
 
-        $hunts = HuntModel::loadByState($_GET['state']);
+        foreach (HuntModel::loadByState(HuntModel::STATE_ACTIVE) as $hunt) {
+            $hunts[] = [
+                'id'   => $hunt->id,
+                'name' => $hunt->name
+            ];
+        }
 
         Response::showSuccessResponse('active hunts retrieved', ['hunts' => $hunts]);
     }
