@@ -32,6 +32,12 @@ class UserModel extends ActiveRecord
         return new self($result);
     }
 
+    public static function loadUserFromSession() : self
+    {
+        $userId = $_SESSION['userId'];
+        return self::loadById($userId);
+    }
+
     public static function usernameExists(string $username): bool
     {
         try {
