@@ -78,7 +78,7 @@ class MySql
      * @throws Exceptions\ConnectionException
      * @throws Exceptions\QueryException
      */
-    public static function getMulti(string $tableName, array $where = [])
+    public static function getMany(string $tableName, array $where = [])
     {
         $sql = 'select * from `' . $tableName . '`';
         $clauses = [];

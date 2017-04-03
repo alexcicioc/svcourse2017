@@ -39,7 +39,7 @@ class TeamUsersModel extends ActiveRecord
      */
     public static function loadByHuntId(int $huntId): array
     {
-        $results = MySql::getMulti(self::getTableName(), ['hunt_id' => $huntId]);
+        $results = MySql::getMany(self::getTableName(), ['hunt_id' => $huntId]);
         $models = [];
 
         foreach ($results as $result) {
@@ -56,7 +56,7 @@ class TeamUsersModel extends ActiveRecord
      */
     public static function loadByTeamId(int $teamId): array
     {
-        $results = MySql::getMulti(self::getTableName(), ['team_id' => $teamId]);
+        $results = MySql::getMany(self::getTableName(), ['team_id' => $teamId]);
         $models  = [];
 
         foreach ($results as $result) {

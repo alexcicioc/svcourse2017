@@ -41,7 +41,7 @@ class HuntModel extends ActiveRecord
         Precondition::isTrue(in_array($state, self::STATES), 'The state is not valid');
 
         $huntModelList = [];
-        $results       = MySql::getMulti(self::getTableName(), ['state' => $state]);
+        $results       = MySql::getMany(self::getTableName(), ['state' => $state]);
 
         foreach ($results as $result) {
             $huntModelList[] = new static($result);
