@@ -18,4 +18,6 @@ class ErrorCodes
 
     const USER_LOGIN_USERNAME_DOES_NOT_EXIST = 200;
     const USER_LOGIN_INCORRECT_PASSWORD = 201;
+
+    const USER_NOT_LOGGED_ID = 401;
 }

@@ -1,5 +1,6 @@
 <?php
 include "autoload.php";
+session_start(['cookie_lifetime' => 86400]);
 
 use Course\Api\Controllers\ErrorCodes;
 use Course\Api\Controllers\Router;
