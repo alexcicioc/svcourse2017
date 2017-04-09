@@ -11,8 +11,10 @@ namespace Course\Api\Controllers;
 
 class ErrorCodes
 {
-    const GENERIC_ERROR = 1;
-    const INVALID_PARAMETER = 2;
+    const GENERIC_ERROR      = 1;
+    const INVALID_PARAMETER  = 2;
+    const BAD_REQUEST        = 3;
+    const INVALID_AUTH_TOKEN = 4;
 
     const USER_CREATE_USERNAME_ALREADY_TAKEN = 100;
 

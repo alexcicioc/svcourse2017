@@ -49,7 +49,10 @@ class UserLoginController implements Controller
         session_start(['cookie_lifetime' => 86400]);
         $_SESSION['userId'] = $userModel->id;
 
-        Response::showSuccessResponse('user authenticated', ['userId' => $userModel->id]);
+        Response::showSuccessResponse('user authenticated', [
+            'userId'             => $userModel->id,
+            'authorizationToken' => StringUtils::encryptData($userModel),
+        ]);
     }
 
     public function update()
