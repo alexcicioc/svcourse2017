@@ -41,14 +41,16 @@ class TeamController implements Controller
             );
         }
 
-        try {
-            $userModel = UserModel::loadUserFromSession();
-        } catch (NoResultsException $e) {
-            Response::showErrorResponse(
-                ErrorCodes::USER_NOT_LOGGED_ID,
-                'user is not logged in'
-            );
-        }
+//        try {
+//            $userModel = UserModel::loadUserFromSession();
+//        } catch (NoResultsException $e) {
+//            Response::showErrorResponse(
+//                ErrorCodes::USER_NOT_LOGGED_ID,
+//                'user is not logged in'
+//            );
+//        }
+
+        $userModel = Request::getAuthUser();
 
         $teamModel = TeamModel::create($name, $userModel->id);
 
