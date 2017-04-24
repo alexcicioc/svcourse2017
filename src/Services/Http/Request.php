@@ -57,6 +57,8 @@ class Request
                 Response::showErrorResponse(ErrorCodes::INVALID_AUTH_TOKEN, 'Invalid auth token');
             }
 
+            $userModel = UserModel::loadById($userModel->id);
+
             return $userModel;
 
         } catch (DecryptException $e) {

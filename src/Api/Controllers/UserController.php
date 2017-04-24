@@ -21,7 +21,12 @@ class UserController implements Controller
 {
     public function get()
     {
-        throw new HttpException('Method Now Allowed', HttpConstants::STATUS_CODE_METHOD_NOT_ALLOWED);
+        $userModel = Request::getAuthUser();
+
+        Response::showSuccessResponse('user details retrieved', [
+            'userId' => $userModel->id,
+            'username' => $userModel->username,
+        ]);
     }
 
     public function create()
@@ -42,7 +47,10 @@ class UserController implements Controller
         $password = StringUtils::encryptPassword($body->password);
         $userModel = UserModel::create($body->username, $password);
 
-        Response::showSuccessResponse('user created', ['userId' => $userModel->id]);
+        Response::showSuccessResponse('user created', [
+            'userId' => $userModel->id,
+            'authorizationToken' => StringUtils::encryptData($userModel),
+        ]);
     }
 
     public function update()

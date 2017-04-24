@@ -14,7 +14,7 @@ try {
     if (empty($_GET['path'])) {
         throw new HttpException('Bad Request', HttpConstants::STATUS_CODE_BAD_REQUEST);
     }
-
+//var_dump($_GET['path'], $_SERVER);
     $router = new Router($_GET['path'], $_SERVER['REQUEST_METHOD']);
     $router->processRequest();
 
