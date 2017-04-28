@@ -9,6 +9,7 @@
 namespace Course\Api\Model;
 
 
+use Course\Services\Persistence\Exceptions\NoResultsException;
 use Course\Services\Persistence\MySql;
 
 class TeamUsersModel extends ActiveRecord
@@ -30,6 +31,31 @@ class TeamUsersModel extends ActiveRecord
     protected static function getConfig(): array
     {
         return self::$config;
+    }
+
+
+    public static function create(int $teamId, int $userId, int $huntId): self
+    {
+        $id = MySql::insert(self::getTableName(), ['team_id' => $teamId, 'hunt_id' => $huntId, 'user_id'=>$userId]);
+        return self::loadById($id);
+    }
+
+    public static function loadById(int $id): self
+    {
+        $result = MySql::getOne(self::getTableName(), ['id' => $id]);
+        return new self($result);
+    }
+
+    public static function existsByTeamUserAndHunt(int $teamId, int $userId, int $huntId): bool
+    {
+        try {
+            MySql::getOne(self::getTableName(),
+                ['team_id' => $teamId, 'user_id' => $userId, 'hunt_id' => $huntId]
+            );
+            return true;
+        } catch (NoResultsException $e) {
+            return false;
+        }
     }
 
     /**

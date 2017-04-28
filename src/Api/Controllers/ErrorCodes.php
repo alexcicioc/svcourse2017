@@ -22,4 +22,7 @@ class ErrorCodes
     const USER_LOGIN_INCORRECT_PASSWORD = 201;
 
     const USER_NOT_LOGGED_ID = 401;
+
+    const HUNT_IS_NOT_ACTIVE = 1000;
+    const USER_ALREADY_JOINED_TEAM = 1001;
 }

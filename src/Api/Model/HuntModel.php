@@ -30,6 +30,12 @@ class HuntModel extends ActiveRecord
         ];
     }
 
+    public static function loadById(int $id): self
+    {
+        $result = MySql::getOne(self::getTableName(), ['id' => $id]);
+        return new self($result);
+    }
+
     /**
      * @param string $state
      *
@@ -48,5 +54,9 @@ class HuntModel extends ActiveRecord
         }
 
         return $huntModelList;
+    }
+
+    public function isActive() {
+        return $this->state == self::STATE_ACTIVE;
     }
 }

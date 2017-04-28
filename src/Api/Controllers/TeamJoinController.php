@@ -22,7 +22,7 @@ use Course\Services\Http\Response;
 use Course\Services\Persistence\Exceptions\NoResultsException;
 use Course\Services\Utils\StringUtils;
 
-class TeamController implements Controller
+class TeamJoinController implements Controller
 {
     // Handler for HTTP get methods
     public function get()
@@ -34,19 +34,20 @@ class TeamController implements Controller
     public function create()
     {
         $request = Request::getJsonBody();
-        $name = $request->name;
         $huntId = $request->huntId;
+        $teamId = $request->teamId;
 
-        if (strlen($request->name) < 4) {
-            Response::showErrorResponse(
-                ErrorCodes::INVALID_PARAMETER,
-                'team name length should be 4 or greater'
-            );
-        }
         if (empty($huntId) || $huntId <= 0) {
             Response::showErrorResponse(
                 ErrorCodes::INVALID_PARAMETER,
                 'hunt id should be positive integer'
+            );
+        }
+
+        if (empty($teamId) || $teamId <= 0) {
+            Response::showErrorResponse(
+                ErrorCodes::INVALID_PARAMETER,
+                'team id should be positive integer'
             );
         }
 
@@ -59,6 +60,15 @@ class TeamController implements Controller
             );
         }
 
+        try {
+            $teamModel = TeamModel::loadById($teamId);
+        } catch (NoResultsException $e) {
+            Response::showErrorResponse(
+                ErrorCodes::INVALID_PARAMETER,
+                'team id is not valid'
+            );
+        }
+
         if (!$huntModel->isActive()) {
             Response::showErrorResponse(
                 ErrorCodes::HUNT_IS_NOT_ACTIVE,
@@ -66,21 +76,19 @@ class TeamController implements Controller
             );
         }
 
-//        try {
-//            $userModel = UserModel::loadUserFromSession();
-//        } catch (NoResultsException $e) {
-//            Response::showErrorResponse(
-//                ErrorCodes::USER_NOT_LOGGED_ID,
-//                'user is not logged in'
-//            );
-//        }
 
         $userModel = Request::getAuthUser();
 
-        $teamModel = TeamModel::create($name, $userModel->id);
-        TeamUsersModel::create($teamModel->id, $userModel->id, $huntId);
+        if (TeamUsersModel::existsByTeamUserAndHunt($teamId, $userModel->id, $huntId)) {
+            Response::showErrorResponse(
+                ErrorCodes::USER_ALREADY_JOINED_TEAM,
+                'user already joined the team'
+            );
+        }
 
-        Response::showSuccessResponse('team created', ['teamId' => $teamModel->id]);
+        TeamUsersModel::create($teamId, $userModel->id, $huntId);
+
+        Response::showSuccessResponse('team joined');
     }
 
     // Handler for HTTP PUT methods
