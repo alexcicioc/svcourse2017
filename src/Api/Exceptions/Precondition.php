@@ -25,4 +25,20 @@ class Precondition
             throw new PreconditionException($variableName . ' should be between ' . $minLength . ' and ' . $maxLength . ' characters');
         }
     }
+
+    public static function isPositiveInteger($value, string $variableName)
+    {
+        if (!is_numeric($value) || $value <= 0) {
+            throw new PreconditionException(
+                $variableName . ' is not positive integer');
+        }
+    }
+
+    public static function isInArray($value, array $valueArray, string $variableName)
+    {
+        if (!in_array($value, $valueArray)) {
+            throw new PreconditionException(
+                $variableName . ' is not in array[' . implode(', ', $valueArray) . ']');
+        }
+    }
 }

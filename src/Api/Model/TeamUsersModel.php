@@ -20,6 +20,11 @@ class TeamUsersModel extends ActiveRecord
         self::CONFIG_DB_COLUMNS   => ['id', 'team_id', 'user_id', 'hunt_id'],
     ];
 
+    const STATUS_NOT_READY = 'N';
+    const STATUS_READY     = 'R';
+
+    const ALL_STATUSES = [self::STATUS_NOT_READY, self::STATUS_READY];
+
     /** @var TeamsModel */
     protected $teamModel;
     /** @var UserModel */
@@ -36,13 +41,15 @@ class TeamUsersModel extends ActiveRecord
 
     public static function create(int $teamId, int $userId, int $huntId): self
     {
-        $id = MySql::insert(self::getTableName(), ['team_id' => $teamId, 'hunt_id' => $huntId, 'user_id'=>$userId]);
+        $id = MySql::insert(self::getTableName(), ['team_id' => $teamId, 'hunt_id' => $huntId, 'user_id' => $userId]);
+
         return self::loadById($id);
     }
 
     public static function loadById(int $id): self
     {
         $result = MySql::getOne(self::getTableName(), ['id' => $id]);
+
         return new self($result);
     }
 
@@ -52,6 +59,7 @@ class TeamUsersModel extends ActiveRecord
             MySql::getOne(self::getTableName(),
                 ['team_id' => $teamId, 'user_id' => $userId, 'hunt_id' => $huntId]
             );
+
             return true;
         } catch (NoResultsException $e) {
             return false;
@@ -66,7 +74,7 @@ class TeamUsersModel extends ActiveRecord
     public static function loadByHuntId(int $huntId): array
     {
         $results = MySql::getMany(self::getTableName(), ['hunt_id' => $huntId]);
-        $models = [];
+        $models  = [];
 
         foreach ($results as $result) {
             $models[] = new static($result);
@@ -83,6 +91,27 @@ class TeamUsersModel extends ActiveRecord
     public static function loadByTeamId(int $teamId): array
     {
         $results = MySql::getMany(self::getTableName(), ['team_id' => $teamId]);
+        $models  = [];
+
+        foreach ($results as $result) {
+            $models[] = new static($result);
+        }
+
+        return $models;
+    }
+
+    /**
+     * @param int $teamId
+     * @param int $huntId
+     *
+     * @return array|TeamUsersModel[]
+     */
+    public static function loadByTeamIdAndHuntId(int $teamId, int $huntId): array
+    {
+        $results = MySql::getMany(
+            self::getTableName(),
+                ['team_id' => $teamId, 'hunt_id' => $huntId]
+        );
         $models  = [];
 
         foreach ($results as $result) {

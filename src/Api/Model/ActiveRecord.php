@@ -10,11 +10,12 @@ namespace Course\Api\Model;
 
 
 use Course\Api\Exceptions\Precondition;
+use Course\Services\Persistence\MySql;
 
 abstract class ActiveRecord
 {
-    const CONFIG_TABLE_NAME = 'tableName';
-    const CONFIG_DB_COLUMNS = 'dbColumns';
+    const CONFIG_TABLE_NAME   = 'tableName';
+    const CONFIG_DB_COLUMNS   = 'dbColumns';
     const CONFIG_PRIMARY_KEYS = 'primaryKeys';
 
     private $data = [];
@@ -27,6 +28,7 @@ abstract class ActiveRecord
     public function __get($name)
     {
         Precondition::isTrue(isset($this->data[$name]), 'field ' . $name . ' does not exist');
+
         return $this->data[$name];
     }
 
@@ -35,5 +37,27 @@ abstract class ActiveRecord
     public static function getTableName()
     {
         return static::getConfig()[self::CONFIG_TABLE_NAME];
+    }
+
+    public function save()
+    {
+        $columns     = static::getConfig()[self::CONFIG_DB_COLUMNS];
+        $primaryKeys = static::getConfig()[self::CONFIG_PRIMARY_KEYS];
+        $data        = [];
+
+        foreach ($columns as $columnName) {
+            if (!isset($this->{$columnName})) {
+                continue;
+            }
+            $data[$columnName] = $this->{$columnName};
+        }
+
+        var_dump($data);die;
+
+        MySql::update(
+            self::getTableName(),
+            $data,
+            $primaryKeys
+        );
     }
 }
