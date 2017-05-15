@@ -17,7 +17,7 @@ class TeamUsersModel extends ActiveRecord
     protected static $config = [
         self::CONFIG_TABLE_NAME   => 'team_users',
         self::CONFIG_PRIMARY_KEYS => ['id'],
-        self::CONFIG_DB_COLUMNS   => ['id', 'team_id', 'user_id', 'hunt_id'],
+        self::CONFIG_DB_COLUMNS   => ['id', 'team_id', 'user_id', 'hunt_id', 'status'],
     ];
 
     const STATUS_NOT_READY = 'N';

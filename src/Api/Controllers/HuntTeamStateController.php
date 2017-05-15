@@ -67,7 +67,6 @@ class HuntTeamStateController implements Controller
         }
 
         $teamUsers = TeamUsersModel::loadByTeamIdAndHuntId($teamId, $huntId);
-var_dump($teamUsers);
         foreach ($teamUsers as $teamUserModel) {
             $teamUserModel->status = $status;
             $teamUserModel->save();

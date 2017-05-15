@@ -46,13 +46,8 @@ abstract class ActiveRecord
         $data        = [];
 
         foreach ($columns as $columnName) {
-            if (!isset($this->{$columnName})) {
-                continue;
-            }
             $data[$columnName] = $this->{$columnName};
         }
-
-        var_dump($data);die;
 
         MySql::update(
             self::getTableName(),
