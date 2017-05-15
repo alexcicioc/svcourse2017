@@ -9,7 +9,9 @@
 namespace Course\Api\Controllers;
 
 use Course\Api\Model\HuntModel;
+use Course\Services\Http\HttpConstants;
 use Course\Services\Http\Response;
+use HttpException;
 
 class HuntsActiveController implements Controller
 {
@@ -30,16 +32,16 @@ class HuntsActiveController implements Controller
 
     public function create()
     {
-        // TODO: Implement create() method.
+        throw new HttpException('Method Now Allowed', HttpConstants::STATUS_CODE_METHOD_NOT_ALLOWED);
     }
 
     public function update()
     {
-        // TODO: Implement update() method.
+        throw new HttpException('Method Now Allowed', HttpConstants::STATUS_CODE_METHOD_NOT_ALLOWED);
     }
 
     public function delete()
     {
-        // TODO: Implement delete() method.
+        throw new HttpException('Method Now Allowed', HttpConstants::STATUS_CODE_METHOD_NOT_ALLOWED);
     }
 }
