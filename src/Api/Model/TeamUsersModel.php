@@ -91,7 +91,7 @@ class TeamUsersModel extends ActiveRecord
     public static function getDistinctHuntTeams(int $huntId): array
     {
         $results = MySql::getManyForCustomQuery(
-            "select DISTINCT(id) as `id` from `".self::getTableName()."` where `hunt_id` = $huntId"
+            "select DISTINCT(team_id) as `team_id`, `user_id`, `hunt_id`, `status` from `".self::getTableName()."` where `hunt_id` = $huntId"
         );
         $models  = [];
 
