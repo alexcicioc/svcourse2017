@@ -103,10 +103,9 @@ class MySql
      * @throws Exceptions\ConnectionException
      * @throws Exceptions\QueryException
      */
-    public static function getManyForCustomQuery(string $tableName, string $endFragment)
+    public static function getManyForCustomQuery(string $query)
     {
-        $sql     = 'select * from `' . $tableName . '` ' . $endFragment;
-        $result = mysqli_fetch_all(self::query($sql), MYSQLI_ASSOC);
+        $result = mysqli_fetch_all(self::query($query), MYSQLI_ASSOC);
 
         return $result ?: [];
     }
