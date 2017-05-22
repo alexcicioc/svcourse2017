@@ -30,7 +30,7 @@ class HuntTeamsController implements Controller
         $huntId = $_GET['huntId'];
         $teams  = [];
 
-        foreach (TeamUsersModel::loadByHuntId($huntId) as $teamUserModel) {
+        foreach (TeamUsersModel::getDistinctHuntTeams($huntId) as $teamUserModel) {
             $teams[] = [
                 'id' => $teamUserModel->team_id,
                 'name' => $teamUserModel->getTeamModel()->name

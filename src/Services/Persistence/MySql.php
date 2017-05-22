@@ -97,6 +97,22 @@ class MySql
 
     /**
      * @param string $tableName
+     * @param string $endFragment
+     *
+     * @return array
+     * @throws Exceptions\ConnectionException
+     * @throws Exceptions\QueryException
+     */
+    public static function getManyForCustomQuery(string $tableName, string $endFragment)
+    {
+        $sql     = 'select * from `' . $tableName . '` ' . $endFragment;
+        $result = mysqli_fetch_all(self::query($sql), MYSQLI_ASSOC);
+
+        return $result ?: [];
+    }
+
+    /**
+     * @param string $tableName
      * @param array  $data
      *
      * @return int
