@@ -21,6 +21,7 @@ try {
 } catch (HttpException $e) {
     $e->toResponse();
 } catch (ApiException $e) {
+    echo $e->getMessage();
     echo $e->getTraceAsString();die;
     $response = new Response(HttpConstants::STATUS_CODE_INTERNAL_SERVER_ERROR, 'Internal Server Error');
     Response::showInternalErrorResponse(ErrorCodes::GENERIC_ERROR, 'Uncaught exception');
