@@ -96,8 +96,7 @@ class MySql
     }
 
     /**
-     * @param string $tableName
-     * @param string $endFragment
+     * @param string $query
      *
      * @return array
      * @throws Exceptions\ConnectionException
