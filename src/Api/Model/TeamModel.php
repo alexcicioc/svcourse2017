@@ -58,7 +58,7 @@ class TeamModel extends ActiveRecord
 
         $teamModels = [];
         foreach ($results as $result) {
-            $teamModels = new self($result);
+            $teamModels[] = new self($result);
         }
 
         return $teamModels;
