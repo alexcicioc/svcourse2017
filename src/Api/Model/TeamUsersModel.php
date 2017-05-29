@@ -25,7 +25,7 @@ class TeamUsersModel extends ActiveRecord
 
     const ALL_STATUSES = [self::STATUS_NOT_READY, self::STATUS_READY];
 
-    /** @var TeamsModel */
+    /** @var TeamModel */
     protected $teamModel;
     /** @var UserModel */
     protected $userModel;
@@ -148,7 +148,7 @@ class TeamUsersModel extends ActiveRecord
     public function getTeamModel()
     {
         if (is_null($this->teamModel)) {
-            $this->teamModel = TeamsModel::getById($this->team_id);
+            $this->teamModel = TeamModel::loadById($this->team_id);
         }
 
         return $this->teamModel;

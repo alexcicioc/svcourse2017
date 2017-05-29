@@ -11,6 +11,7 @@ namespace Course\Api\Controllers;
 
 use Course\Api\Exceptions\Precondition;
 use Course\Api\Exceptions\PreconditionException;
+use Course\Api\Model\TeamModel;
 use Course\Api\Model\TeamUsersModel;
 use Course\Services\Http\Response;
 
@@ -30,10 +31,10 @@ class HuntTeamsController implements Controller
         $huntId = $_GET['huntId'];
         $teams  = [];
 
-        foreach (TeamUsersModel::getDistinctHuntTeams($huntId) as $teamUserModel) {
+        foreach (TeamModel::getTeamsByHunt($huntId) as $teamModel) {
             $teams[] = [
-                'id' => $teamUserModel->team_id,
-                'name' => $teamUserModel->getTeamModel()->name
+                'id'   => $teamModel->id,
+                'name' => $teamModel->name,
             ];
         }
 
